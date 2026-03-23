@@ -45,9 +45,12 @@ export default function Contact() {
     if (!validate()) return;
     setStatus('loading');
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch('https://formsubmit.co/ajax/merazka.abderraouf@orange.fr', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
         body: JSON.stringify(form),
       });
       if (!res.ok) {
