@@ -48,13 +48,57 @@ export const EXPERIENCES: Experience[] = [
         description:
           'A site factory powering 40+ transport network websites — dynamic, localised passenger information portals built from a single codebase.',
         stack: ['React', 'Gatsby', 'GraphQL', 'TypeScript'],
+        url: 'https://www.amelys.fr/',
+      },
+      {
+        id: 'ilevia',
+        title: 'Site web filalie keolis lille',
+        description:
+          "Dump version and RGAA compliance for the subsidiary's website, ensuring accessibility for all users. Implemented WCAG 2.1 AA standards across the site.",
+        stack: ['React', 'Next.js', 'Bolt CMS', 'TypeScript', 'WCAG'],
+        url: 'https://www.ilevia.fr/',
       },
       {
         id: 'mobile-factory',
-        title: 'Mobile Factory – Flutter',
+        title: 'Mobility on demand – Flutter',
         description:
-          'Multi-app mobile factory for on-demand transport services across France. Scalable architecture enabling rapid white-label deployments.',
+          'Multi-app mobile for on-demand transport services across France. Scalable architecture enabling rapid white-label deployments.',
         stack: ['Flutter', 'Dart', 'REST APIs', 'Mobile Architecture'],
+      },
+      {
+        id: 'mobile-info-travelers',
+        title: 'Mobile information travelers – Flutter',
+        description:
+          'Mobile app for real-time passenger information. Used across multiple cities, offline-capable and accessible by design.',
+        stack: ['Flutter', 'Dart', 'REST APIs', 'Firebase', 'Mobile Architecture'],
+      },
+      {
+        id: 'keolis-keometre',
+        title: 'Keolis Keometre',
+        description:
+          'Mobile application for bus mileage tracking — scan license plates and odometer readings using camera and OCR for automated data capture.',
+        stack: ['Flutter', 'Dart', 'Firebase', 'Camera', 'OCR'],
+      },
+      {
+        id: 'keolis-kopilot',
+        title: 'Keolis Kopilot',
+        description:
+          'Driver assistance mobile app — provides real-time decision support with nearby stops and connecting train schedules based on geolocation.',
+        stack: ['Flutter', 'Dart', 'Firebase', 'Geolocation', 'Real-time Data'],
+      },
+      {
+        id: 'keolis-soti',
+        title: 'Keolis Soti',
+        description:
+          'Mobile fleet management application — enables centralized control and monitoring of company mobile devices across the organization.',
+        stack: ['Flutter', 'Dart', 'Firebase', 'Device Management'],
+      },
+      {
+        id: 'mobile-Oskar',
+        title: 'KEOLIS OSKAR - Flutter',
+        description:
+          'Internal fraud control application for transport inspectors. Real-time data, offline-capable mobile app used across multiple cities.',
+        stack: ['Flutter', 'Dart', 'REST APIs', 'MVVM Architecture'],
       },
     ],
     technologies: [
@@ -104,11 +148,20 @@ export const PROJECTS: Project[] = [
     description:
       'A site factory delivering 40+ transport network websites from a single unified codebase. Dynamic, localised and accessible passenger info portals.',
     stack: ['React', 'Gatsby', 'GraphQL', 'TypeScript'],
+    url: 'https://www.amelys.fr/',
     featured: true,
   },
   {
+    id: 'ilevia',
+    title: 'Site web filalie keolis lille',
+    description:
+      "Dump version and RGAA compliance for the subsidiary's website, ensuring accessibility for all users. Implemented WCAG 2.1 AA standards across the site.",
+    stack: ['React', 'Next.js', 'Bolt CMS', 'TypeScript', 'WCAG'],
+    url: 'https://www.ilevia.fr/',
+  },
+  {
     id: 'mobile-factory',
-    title: 'Mobile Factory – Flutter',
+    title: 'Mobility on demand – Flutter',
     description:
       'White-label Flutter mobile app factory for on-demand transport. Powers multiple iOS & Android apps across different Keolis networks.',
     stack: ['Flutter', 'Dart', 'REST APIs'],
@@ -120,6 +173,15 @@ export const PROJECTS: Project[] = [
     description:
       'Internal fraud control application for transport inspectors. Real-time data, offline-capable mobile app used across multiple cities.',
     stack: ['Flutter', 'Dart', 'REST APIs'],
+    featured: true,
+  },
+    {
+    id: 'mobile-info-travelers',
+    title: 'Mobile information travelers – Flutter',
+    description:
+      'Mobile app for real-time passenger information. Used across multiple cities, offline-capable and accessible by design.',
+    stack: ['Flutter', 'Dart', 'REST APIs', 'Firebase', 'Mobile Architecture'],
+    featured: true,
   },
   {
     id: 'pam75',
@@ -127,6 +189,31 @@ export const PROJECTS: Project[] = [
     description:
       'On-demand transport booking platform for people with disabilities in Paris. Accessible by design, WCAG AA compliant.',
     stack: ['Flutter', 'Dart', 'REST APIs'],
+    featured: true,
+  },
+  {
+    id: 'keolis-keometre',
+    title: 'Keolis Keometre',
+    description:
+      'Mobile application for bus mileage tracking — scan license plates and odometer readings using camera and OCR for automated data capture.',
+    stack: ['Flutter', 'Dart', 'Firebase', 'Camera', 'OCR'],
+    featured: true,
+  },
+  {
+    id: 'keolis-kopilot',
+    title: 'Keolis Kopilot',
+    description:
+      'Driver assistance mobile app — provides real-time decision support with nearby stops and connecting train schedules based on geolocation.',
+    stack: ['Flutter', 'Dart', 'Firebase', 'Geolocation', 'Real-time Data'],
+    featured: true,
+  },
+  {
+    id: 'keolis-soti',
+    title: 'Keolis Soti',
+    description:
+      'Mobile fleet management application — enables centralized control and monitoring of company mobile devices across the organization.',
+    stack: ['Flutter', 'Dart', 'Firebase', 'Device Management'],
+    featured: true,
   },
   {
     id: 'adomik',
@@ -134,6 +221,7 @@ export const PROJECTS: Project[] = [
     description:
       'Analytics SaaS platform for programmatic advertising. Complex data visualisation dashboards handling millions of ad transaction records.',
     stack: ['React', 'Redux', 'D3.js', 'Recharts', 'Jest', 'AWS S3'],
+    featured: true,
   },
 ];
 
