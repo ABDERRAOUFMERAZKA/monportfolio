@@ -4,17 +4,26 @@ import { motion } from 'framer-motion';
 import SectionWrapper from '@/components/ui/SectionWrapper';
 import SectionHeading from '@/components/ui/SectionHeading';
 import { SKILL_CATEGORIES } from '@/lib/data';
+import { useLanguage, tr } from '@/lib/i18n';
+import { useDict } from '@/lib/dictionary';
+
+const ICON_TINTS = [
+  'bg-brand-500/10 text-brand-600 dark:text-brand-300',
+  'bg-accent-pink/10 text-accent-pink',
+  'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
+  'bg-accent-cyan/10 text-cyan-600 dark:text-cyan-400',
+  'bg-amber-500/10 text-amber-600 dark:text-amber-400',
+  'bg-violet-500/10 text-violet-600 dark:text-violet-400',
+];
 
 export default function Skills() {
+  const { lang } = useLanguage();
+  const t = useDict(lang).skills;
+
   return (
-    <SectionWrapper id="skills" className="bg-white dark:bg-[#0d0d12]">
+    <SectionWrapper id="skills" className="bg-[rgb(var(--background))] aura">
       <div className="max-w-7xl mx-auto">
-        <SectionHeading
-          label="Skills"
-          title="Technologies I work with"
-          description="A curated toolkit built through years of production-grade engineering."
-          align="center"
-        />
+        <SectionHeading label={t.label} title={t.title} description={t.description} align="left" />
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {SKILL_CATEGORIES.map((category, catIdx) => (
@@ -24,30 +33,29 @@ export default function Skills() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.5, delay: catIdx * 0.08 }}
-              className="group p-6 rounded-2xl bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 hover:border-brand-500/30 transition-all duration-300 hover:shadow-glow-sm"
+              className="group p-6 soft-card hover:-translate-y-1 hover:shadow-soft-lg transition-all duration-300"
             >
               {/* Category header */}
               <div className="flex items-center gap-3 mb-5">
-                <div className="w-10 h-10 rounded-xl bg-brand-500/10 flex items-center justify-center text-xl flex-shrink-0 group-hover:scale-110 transition-transform">
-                  <span role="img" aria-label={category.label}>{category.icon}</span>
+                <div className={`w-11 h-11 rounded-2xl flex items-center justify-center text-xl flex-shrink-0 ${ICON_TINTS[catIdx % ICON_TINTS.length]}`}>
+                  <span role="img" aria-label={tr(category.label, lang)}>{category.icon}</span>
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white">{category.label}</h3>
+                <h3 className="font-display font-semibold text-lg text-[rgb(var(--foreground))]">{tr(category.label, lang)}</h3>
               </div>
 
               {/* Skills */}
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-wrap gap-2">
                 {category.skills.map((skill, i) => (
-                  <motion.div
+                  <motion.span
                     key={skill.name}
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: catIdx * 0.05 + i * 0.04 }}
-                    className="flex items-center gap-3"
+                    className="px-2.5 py-1 rounded-full bg-[rgb(var(--background))] border border-[rgb(var(--border))] text-[rgb(var(--muted))] text-xs font-medium"
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-brand-400 flex-shrink-0" aria-hidden />
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{skill.name}</span>
-                  </motion.div>
+                    {skill.name}
+                  </motion.span>
                 ))}
               </div>
             </motion.div>
@@ -60,13 +68,13 @@ export default function Skills() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4 }}
-          className="mt-12 p-6 rounded-2xl bg-gradient-to-r from-brand-500/10 via-purple-500/10 to-pink-500/10 border border-brand-500/20 text-center"
+          className="mt-10 p-8 rounded-3xl bg-gradient-to-r from-brand-600 to-brand-500 text-white shadow-glow text-center"
         >
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            Always learning — currently exploring{' '}
-            <span className="text-brand-400 font-medium">AI-augmented development</span>,{' '}
-            <span className="text-purple-400 font-medium">Web Components</span> and{' '}
-            <span className="text-pink-400 font-medium">Edge computing</span>.
+          <p className="text-base md:text-lg font-medium">
+            {t.bannerPrefix}
+            <span className="font-semibold underline decoration-white/40 underline-offset-4">{t.bannerItems[0]}</span>,{' '}
+            <span className="font-semibold underline decoration-white/40 underline-offset-4">{t.bannerItems[1]}</span>{' '}
+            <span className="font-semibold underline decoration-white/40 underline-offset-4">{t.bannerItems[2]}</span>{t.bannerSuffix}
           </p>
         </motion.div>
       </div>

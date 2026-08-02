@@ -1,7 +1,9 @@
+import type { Localized } from '@/lib/i18n';
+
 export interface ExperienceProject {
   id: string;
   title: string;
-  description: string;
+  description: Localized;
   stack: string[];
   url?: string;
 }
@@ -9,10 +11,10 @@ export interface ExperienceProject {
 export interface Experience {
   id: string;
   company: string;
-  role: string;
-  period: string;
+  role: Localized;
+  period: Localized;
   current?: boolean;
-  description: string[];
+  description: Localized[];
   projects?: ExperienceProject[];
   technologies: string[];
 }
@@ -20,7 +22,7 @@ export interface Experience {
 export interface Project {
   id: string;
   title: string;
-  description: string;
+  description: Localized;
   stack: string[];
   url?: string;
   github?: string;
@@ -35,7 +37,7 @@ export interface Skill {
 
 export interface SkillCategory {
   id: string;
-  label: string;
+  label: Localized;
   icon: string;
   skills: Skill[];
 }

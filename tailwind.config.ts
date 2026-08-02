@@ -10,50 +10,57 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
+        // Rounded geometric sans for display, Inter for body
+        display: ['var(--font-poppins)', 'system-ui', 'sans-serif'],
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-jetbrains)', 'Fira Code', 'monospace'],
+        mono: ['var(--font-jetbrains)', 'ui-monospace', 'monospace'],
       },
       colors: {
+        // Indigo / violet primary (kept as `brand-*`)
         brand: {
-          50: '#f0f4ff',
-          100: '#e0e9ff',
-          200: '#c7d5fe',
-          300: '#a5b4fc',
-          400: '#818cf8',
-          500: '#6366f1',
-          600: '#4f46e5',
-          700: '#4338ca',
-          800: '#3730a3',
-          900: '#312e81',
-          950: '#1e1b4b',
+          50: '#eeecfd',
+          100: '#dcd8fb',
+          200: '#bbb2f7',
+          300: '#9a8bf3',
+          400: '#8b7bff',
+          500: '#6c5ce7',
+          600: '#5a4bd1',
+          700: '#4638a8',
+          800: '#352b80',
+          900: '#272060',
+          950: '#161138',
+        },
+        // Deep night-sky navy used behind the hero
+        navy: {
+          900: '#0b0b2e',
+          800: '#141248',
+          700: '#1e1a63',
+        },
+        accent: {
+          pink: '#ff5c8a',
+          coral: '#ff6b6b',
+          cyan: '#22d3ee',
         },
       },
       animation: {
-        float: 'float 6s ease-in-out infinite',
+        float: 'float 7s ease-in-out infinite',
+        twinkle: 'twinkle 4s ease-in-out infinite',
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        shimmer: 'shimmer 2s linear infinite',
-        'spin-slow': 'spin 8s linear infinite',
-        'gradient-x': 'gradient-x 4s ease infinite',
       },
       keyframes: {
         float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-12px)' },
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-14px)' },
         },
-        shimmer: {
-          '0%': { backgroundPosition: '-200% 0' },
-          '100%': { backgroundPosition: '200% 0' },
-        },
-        'gradient-x': {
-          '0%, 100%': { backgroundPosition: '0% 50%' },
-          '50%': { backgroundPosition: '100% 50%' },
+        twinkle: {
+          '0%, 100%': { opacity: '0.3' },
+          '50%': { opacity: '1' },
         },
       },
       boxShadow: {
-        glow: '0 0 40px -10px rgba(99, 102, 241, 0.5)',
-        'glow-sm': '0 0 20px -5px rgba(99, 102, 241, 0.3)',
-        glass: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
-        'glass-light': '0 8px 32px 0 rgba(0, 0, 0, 0.08)',
+        soft: '0 10px 40px -12px rgba(23, 17, 56, 0.18)',
+        'soft-lg': '0 24px 60px -20px rgba(23, 17, 56, 0.25)',
+        glow: '0 12px 40px -8px rgba(108, 92, 231, 0.45)',
       },
     },
   },

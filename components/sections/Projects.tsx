@@ -6,36 +6,44 @@ import SectionWrapper from '@/components/ui/SectionWrapper';
 import SectionHeading from '@/components/ui/SectionHeading';
 import Badge from '@/components/ui/Badge';
 import { PROJECTS } from '@/lib/data';
+import { useLanguage, tr } from '@/lib/i18n';
+import { useDict } from '@/lib/dictionary';
+
+const ICON_COLORS = [
+  'bg-brand-500/10 text-brand-600 dark:text-brand-300',
+  'bg-accent-pink/10 text-accent-pink',
+  'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
+  'bg-accent-cyan/10 text-cyan-600 dark:text-cyan-400',
+  'bg-amber-500/10 text-amber-600 dark:text-amber-400',
+  'bg-violet-500/10 text-violet-600 dark:text-violet-400',
+];
 
 export default function Projects() {
   const [filter, setFilter] = useState<'all' | 'featured'>('all');
+  const { lang } = useLanguage();
+  const t = useDict(lang).projects;
 
   const displayed = filter === 'featured' ? PROJECTS.filter((p) => p.featured) : PROJECTS;
 
   return (
-    <SectionWrapper id="projects" className="bg-gray-50 dark:bg-[#0a0a0e]">
+    <SectionWrapper id="projects" className="bg-[rgb(var(--card))]">
       <div className="max-w-7xl mx-auto">
-        <SectionHeading
-          label="Projects"
-          title="Things I've built"
-          description="A selection of projects I'm proud of — from corporate platforms to mobile apps."
-          align="center"
-        />
+        <SectionHeading label={t.label} title={t.title} description={t.description} align="left" />
 
         {/* Filter */}
-        <div className="flex justify-center mb-12">
-          <div className="flex items-center gap-1 p-1 rounded-xl bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10">
+        <div className="flex justify-start mb-12">
+          <div className="flex items-center gap-1 p-1 rounded-full border border-[rgb(var(--border))] bg-[rgb(var(--background))]">
             {(['all', 'featured'] as const).map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
-                className={`px-5 py-2 rounded-lg text-sm font-medium transition-all capitalize ${
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
                   filter === f
-                    ? 'bg-white dark:bg-white/10 text-gray-900 dark:text-white shadow-sm'
-                    : 'text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
+                    ? 'bg-brand-500 text-white shadow-glow'
+                    : 'text-[rgb(var(--muted))] hover:text-[rgb(var(--foreground))]'
                 }`}
               >
-                {f === 'all' ? 'All Projects' : '⭐ Featured'}
+                {f === 'all' ? t.all : `★ ${t.featured}`}
               </button>
             ))}
           </div>
@@ -58,28 +66,26 @@ export default function Projects() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.07, duration: 0.4 }}
-                className="group flex flex-col p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 hover:border-brand-500/40 transition-all duration-300 hover:shadow-glow-sm"
+                className="group flex flex-col p-6 soft-card hover:-translate-y-1 hover:shadow-soft-lg transition-all duration-300"
                 aria-label={project.title}
               >
-                {/* Project icon placeholder */}
-                <div className="w-12 h-12 rounded-xl mb-5 flex items-center justify-center bg-gradient-to-br from-brand-500/20 to-purple-500/20 border border-brand-500/20 group-hover:scale-110 transition-transform">
-                  <span className="text-2xl" aria-hidden>
-                    {getProjectIcon(project.id)}
-                  </span>
+                {/* Project icon */}
+                <div className={`w-12 h-12 rounded-2xl mb-5 flex items-center justify-center ${ICON_COLORS[i % ICON_COLORS.length]}`}>
+                  <span className="text-2xl" aria-hidden>{getProjectIcon(project.id)}</span>
                 </div>
 
                 <div className="flex items-start justify-between gap-2 mb-2">
-                  <h3 className="font-semibold text-gray-900 dark:text-white leading-tight">{project.title}</h3>
+                  <h3 className="font-display font-semibold text-[rgb(var(--foreground))] leading-tight">{project.title}</h3>
                   <div className="flex items-center gap-1 flex-shrink-0">
                     {project.featured && (
-                      <span className="text-xs text-yellow-500" aria-label="Featured">⭐</span>
+                      <span className="text-sm text-brand-500" aria-label="Featured">★</span>
                     )}
                     {project.url && (
                       <a
                         href={project.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-400 dark:text-gray-600 hover:text-brand-500 transition-colors"
+                        className="text-[rgb(var(--muted))] hover:text-brand-500 transition-colors"
                         aria-label={`Visit ${project.title}`}
                         onClick={(e) => e.stopPropagation()}
                       >
@@ -91,8 +97,8 @@ export default function Projects() {
                   </div>
                 </div>
 
-                <p className="text-sm text-gray-500 dark:text-gray-500 leading-relaxed flex-1 mb-4">
-                  {project.description}
+                <p className="text-sm text-[rgb(var(--muted))] leading-relaxed flex-1 mb-4">
+                  {tr(project.description, lang)}
                 </p>
 
                 <div className="flex flex-wrap gap-1.5 mt-auto">

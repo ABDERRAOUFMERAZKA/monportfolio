@@ -27,21 +27,21 @@ export default function Button({
   disabled,
 }: ButtonProps) {
   const base =
-    'inline-flex items-center justify-center gap-2 font-medium rounded-xl transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed';
+    'inline-flex items-center justify-center gap-2 font-semibold rounded-full transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed';
 
   const variants = {
     primary:
-      'bg-brand-600 hover:bg-brand-500 text-white shadow-glow-sm hover:shadow-glow active:scale-[0.98]',
+      'bg-brand-500 text-white shadow-glow hover:bg-brand-600 hover:shadow-soft-lg',
     outline:
-      'border border-gray-300 dark:border-white/15 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:border-brand-500/40',
+      'border border-[rgb(var(--border))] bg-[rgb(var(--card))] text-[rgb(var(--foreground))] hover:border-brand-500 hover:text-brand-500',
     ghost:
-      'text-gray-400 hover:text-white hover:bg-white/5',
+      'text-brand-500 hover:bg-brand-500/10',
   };
 
   const sizes = {
-    sm: 'px-4 py-2 text-sm',
+    sm: 'px-5 py-2 text-sm',
     md: 'px-6 py-3 text-base',
-    lg: 'px-7 py-3.5 text-base',
+    lg: 'px-8 py-3.5 text-base',
   };
 
   const classes = cn(base, variants[variant], sizes[size], className);
@@ -54,8 +54,8 @@ export default function Button({
         className={classes}
         target={external ? '_blank' : undefined}
         rel={external ? 'noopener noreferrer' : undefined}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
         onClick={
           isAnchor
             ? (e) => {
@@ -76,8 +76,8 @@ export default function Button({
     <motion.button
       type={type}
       className={classes}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.97 }}
       onClick={onClick}
       disabled={disabled}
     >

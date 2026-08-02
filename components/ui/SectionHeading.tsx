@@ -36,7 +36,7 @@ export default function SectionHeading({
           initial={{ opacity: 0, y: 12 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="inline-block text-xs font-mono tracking-[0.2em] uppercase text-brand-400 mb-4 px-3 py-1 rounded-full border border-brand-500/20 bg-brand-500/5"
+          className="pill eyebrow px-4 py-1.5 bg-brand-500/10 text-brand-600 dark:text-brand-300 mb-5"
         >
           {label}
         </motion.span>
@@ -45,7 +45,7 @@ export default function SectionHeading({
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 dark:text-white"
+        className="font-display text-4xl md:text-5xl lg:text-[3.4rem] font-bold tracking-tight leading-[1.05] text-[rgb(var(--foreground))]"
       >
         {title}
       </motion.h2>
@@ -54,7 +54,7 @@ export default function SectionHeading({
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-4 text-lg text-gray-500 dark:text-gray-400 leading-relaxed"
+          className="mt-5 text-lg text-[rgb(var(--muted))] leading-relaxed"
         >
           {description}
         </motion.p>

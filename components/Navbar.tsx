@@ -5,12 +5,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { NAV_ITEMS } from '@/lib/data';
+import { useLanguage } from '@/lib/i18n';
+import { useDict } from '@/lib/dictionary';
 import ThemeToggle from './ThemeToggle';
+import LanguageToggle from './LanguageToggle';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { lang } = useLanguage();
+  const t = useDict(lang);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,7 +50,7 @@ export default function Navbar() {
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
           scrolled
-            ? 'bg-white/80 dark:bg-[#0a0a0e]/90 backdrop-blur-xl border-b border-gray-200/50 dark:border-white/5 shadow-sm'
+            ? 'bg-[rgb(var(--background))]/85 backdrop-blur-xl border-b border-[rgb(var(--border))] shadow-soft'
             : 'bg-transparent'
         )}
         initial={{ y: -80, opacity: 0 }}
@@ -59,8 +64,8 @@ export default function Navbar() {
           {/* Logo */}
           <motion.a
             href="#"
-            className="flex items-center"
-            whileHover={{ scale: 1.03 }}
+            className="flex items-center gap-3"
+            whileHover={{ scale: 1.04 }}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             aria-label="Retour en haut"
           >
@@ -69,9 +74,17 @@ export default function Navbar() {
               alt="Abderraouf MERAZKA"
               width={40}
               height={40}
-              className="rounded-full object-cover"
+              className="rounded-full object-cover ring-2 ring-white/20"
               priority
             />
+            <span
+              className={cn(
+                'hidden sm:block font-display font-bold text-lg transition-colors',
+                scrolled ? 'text-[rgb(var(--foreground))]' : 'text-white'
+              )}
+            >
+              Abderraouf
+            </span>
           </motion.a>
 
           {/* Desktop nav */}
@@ -84,21 +97,28 @@ export default function Navbar() {
                   <button
                     onClick={() => handleNavClick(item.href)}
                     className={cn(
-                      'relative px-4 py-2 text-sm font-medium rounded-lg transition-colors',
+                      'relative px-4 py-2 text-sm font-medium rounded-full transition-colors',
                       isActive
-                        ? 'text-brand-500 dark:text-brand-400'
-                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                        ? scrolled
+                          ? 'text-brand-600'
+                          : 'text-white'
+                        : scrolled
+                          ? 'text-[rgb(var(--muted))] hover:text-[rgb(var(--foreground))]'
+                          : 'text-white/70 hover:text-white'
                     )}
                     aria-current={isActive ? 'page' : undefined}
                   >
                     {isActive && (
                       <motion.span
                         layoutId="nav-pill"
-                        className="absolute inset-0 bg-brand-50 dark:bg-brand-500/10 rounded-lg"
+                        className={cn(
+                          'absolute inset-0 rounded-full',
+                          scrolled ? 'bg-brand-500/10' : 'bg-white/15'
+                        )}
                         transition={{ type: 'spring', bounce: 0.25, duration: 0.5 }}
                       />
                     )}
-                    <span className="relative">{item.label}</span>
+                    <span className="relative">{t.nav[item.key]}</span>
                   </button>
                 </li>
               );
@@ -106,17 +126,25 @@ export default function Navbar() {
           </ul>
 
           <div className="flex items-center gap-3">
+            <div className="hidden sm:block">
+              <LanguageToggle />
+            </div>
             <ThemeToggle />
             {/* Mobile hamburger */}
             <button
-              className="md:hidden p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
+              className={cn(
+                'md:hidden w-9 h-9 flex flex-col items-center justify-center rounded-full border transition-colors',
+                scrolled
+                  ? 'border-[rgb(var(--border))] bg-[rgb(var(--card))] text-[rgb(var(--foreground))]'
+                  : 'border-white/25 bg-white/10 text-white'
+              )}
               onClick={() => setMobileMenuOpen((v) => !v)}
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileMenuOpen}
             >
-              <span className="block w-5 h-0.5 bg-current mb-1.5 transition-all" />
-              <span className="block w-5 h-0.5 bg-current mb-1.5 transition-all" />
-              <span className="block w-5 h-0.5 bg-current transition-all" />
+              <span className="block w-4 h-0.5 bg-current mb-1 transition-all" />
+              <span className="block w-4 h-0.5 bg-current mb-1 transition-all" />
+              <span className="block w-4 h-0.5 bg-current transition-all" />
             </button>
           </div>
         </nav>
@@ -132,11 +160,11 @@ export default function Navbar() {
             exit={{ opacity: 0 }}
           >
             <div
-              className="absolute inset-0 bg-black/50"
+              className="absolute inset-0 bg-navy-900/50 backdrop-blur-sm"
               onClick={() => setMobileMenuOpen(false)}
             />
             <motion.nav
-              className="absolute top-16 left-0 right-0 bg-white dark:bg-[#0a0a0e] border-b border-gray-200 dark:border-white/10 px-6 py-4"
+              className="absolute top-20 left-4 right-4 soft-card p-4"
               initial={{ y: -20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -20, opacity: 0 }}
@@ -147,13 +175,16 @@ export default function Navbar() {
                   <li key={item.href}>
                     <button
                       onClick={() => handleNavClick(item.href)}
-                      className="w-full text-left px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-brand-500 dark:hover:text-brand-400 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg transition-colors"
+                      className="w-full text-left px-4 py-3 text-base font-medium text-[rgb(var(--foreground))] hover:bg-brand-500/10 hover:text-brand-600 rounded-2xl transition-colors"
                     >
-                      {item.label}
+                      {t.nav[item.key]}
                     </button>
                   </li>
                 ))}
               </ul>
+              <div className="mt-3 pt-3 border-t border-[rgb(var(--border))] flex justify-center">
+                <LanguageToggle />
+              </div>
             </motion.nav>
           </motion.div>
         )}

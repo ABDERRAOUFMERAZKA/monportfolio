@@ -4,21 +4,22 @@
 
 @layer base {
   :root {
-    --background: 250 250 250;
-    --foreground: 15 15 19;
+    /* Light, airy canvas for content sections */
+    --background: 245 246 250;
+    --foreground: 20 20 43;
     --card: 255 255 255;
     --muted: 107 114 128;
-    --border: 229 231 235;
-    --brand: 99 102 241;
+    --border: 230 232 240;
+    --brand: 108 92 231;
   }
 
   .dark {
-    --background: 10 10 14;
-    --foreground: 248 248 252;
-    --card: 20 20 28;
-    --muted: 156 163 175;
-    --border: 30 30 46;
-    --brand: 129 140 248;
+    --background: 11 11 30;
+    --foreground: 237 236 248;
+    --card: 20 19 48;
+    --muted: 158 160 184;
+    --border: 42 40 82;
+    --brand: 139 123 255;
   }
 
   * {
@@ -37,11 +38,11 @@
   }
 
   ::selection {
-    @apply bg-brand-500/30 text-brand-300;
+    @apply bg-brand-500/25 text-brand-700;
   }
 
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
   }
 
   ::-webkit-scrollbar-track {
@@ -49,33 +50,31 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-brand-500/40 rounded-full;
+    @apply bg-brand-500/50 rounded-full;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-brand-500/70;
+    @apply bg-brand-500/80;
   }
 }
 
 @layer components {
-  .glass-card {
-    @apply bg-white/5 dark:bg-white/[0.03] backdrop-blur-xl border border-white/10 dark:border-white/5;
-  }
-
-  .glass-card-light {
-    @apply bg-white/80 backdrop-blur-xl border border-gray-200/60 shadow-glass-light;
-  }
-
   .section-padding {
     @apply px-6 md:px-12 lg:px-24;
   }
 
-  .gradient-text {
-    @apply bg-gradient-to-r from-brand-400 via-purple-400 to-pink-400 bg-clip-text text-transparent;
+  /* Soft elevated content card */
+  .soft-card {
+    @apply bg-[rgb(var(--card))] border border-[rgb(var(--border))] rounded-3xl shadow-soft;
   }
 
-  .glow-border {
-    @apply border border-brand-500/30 shadow-glow-sm;
+  .eyebrow {
+    @apply inline-block text-xs font-semibold tracking-[0.18em] uppercase text-brand-500;
+  }
+
+  /* Pill used for tags / chips */
+  .pill {
+    @apply inline-flex items-center rounded-full font-medium;
   }
 }
 
@@ -84,10 +83,23 @@
     text-wrap: balance;
   }
 
-  .bg-gradient-mesh {
-    background-image:
-      radial-gradient(at 40% 20%, hsla(240, 100%, 64%, 0.12) 0px, transparent 50%),
-      radial-gradient(at 80% 0%, hsla(260, 100%, 64%, 0.08) 0px, transparent 50%),
-      radial-gradient(at 0% 50%, hsla(220, 100%, 64%, 0.08) 0px, transparent 50%);
+  /* Night-sky gradient for the hero */
+  .bg-night {
+    background:
+      radial-gradient(120% 90% at 50% -10%, #2a1f6e 0%, #141248 42%, #0b0b2e 100%);
+  }
+
+  /* Soft indigo aura on light sections */
+  .aura {
+    background:
+      radial-gradient(60% 50% at 15% 0%, rgba(108, 92, 231, 0.10) 0%, transparent 60%),
+      radial-gradient(50% 45% at 90% 10%, rgba(255, 92, 138, 0.08) 0%, transparent 60%);
+  }
+
+  .gradient-text {
+    background-image: linear-gradient(100deg, #8b7bff 0%, #6c5ce7 50%, #ff5c8a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 }

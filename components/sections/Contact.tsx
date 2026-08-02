@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import SectionWrapper from '@/components/ui/SectionWrapper';
 import SectionHeading from '@/components/ui/SectionHeading';
+import { useLanguage } from '@/lib/i18n';
+import { useDict } from '@/lib/dictionary';
 
 interface FormState {
   name: string;
@@ -25,17 +27,25 @@ const SOCIAL_LINKS = [
   },
 ];
 
+const CARD_TINTS = [
+  'bg-brand-500/8 text-brand-600 dark:text-brand-300',
+  'bg-accent-pink/10 text-accent-pink',
+  'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
+];
+
 export default function Contact() {
   const [form, setForm] = useState<FormState>({ name: '', email: '', message: '' });
   const [status, setStatus] = useState<Status>('idle');
   const [errors, setErrors] = useState<Partial<FormState>>({});
+  const { lang } = useLanguage();
+  const t = useDict(lang).contact;
 
   const validate = (): boolean => {
     const errs: Partial<FormState> = {};
-    if (!form.name.trim()) errs.name = 'Name is required.';
-    if (!form.email.trim()) errs.email = 'Email is required.';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) errs.email = 'Enter a valid email.';
-    if (!form.message.trim()) errs.message = 'Message cannot be empty.';
+    if (!form.name.trim()) errs.name = t.errNameRequired;
+    if (!form.email.trim()) errs.email = t.errEmailRequired;
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) errs.email = t.errEmailInvalid;
+    if (!form.message.trim()) errs.message = t.errMessageRequired;
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -73,15 +83,15 @@ export default function Contact() {
     }
   };
 
+  const inputClass = (hasError?: string) =>
+    `w-full px-4 py-3 rounded-2xl bg-[rgb(var(--background))] border text-[rgb(var(--foreground))] placeholder-[rgb(var(--muted))] text-sm outline-none transition-all focus:ring-2 focus:ring-brand-500/30 ${
+      hasError ? 'border-accent-coral focus:border-accent-coral' : 'border-[rgb(var(--border))] focus:border-brand-500'
+    }`;
+
   return (
-    <SectionWrapper id="contact" className="bg-gray-50 dark:bg-[#0a0a0e]">
+    <SectionWrapper id="contact" className="bg-[rgb(var(--background))] aura">
       <div className="max-w-5xl mx-auto">
-        <SectionHeading
-          label="Contact"
-          title="Let's work together"
-          description="Have a project in mind or want to connect? I'd love to hear from you."
-          align="center"
-        />
+        <SectionHeading label={t.label} title={t.title} description={t.description} align="left" />
 
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Left: info */}
@@ -93,16 +103,17 @@ export default function Contact() {
             className="space-y-8"
           >
             <div className="space-y-4">
-              {[
-                { icon: '🚀', title: 'Open to opportunities', desc: 'Technical Lead, Staff Engineer or Principal Engineer roles.' },
-                { icon: '🤝', title: 'Open to consulting', desc: 'Architecture reviews, front-end audits and coaching missions.' },
-                { icon: '✉️', title: 'Quick response', desc: 'I typically respond within 24 hours.' },
-              ].map((item) => (
-                <div key={item.title} className="flex items-start gap-4 p-4 rounded-xl bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/10">
-                  <span className="text-2xl" aria-hidden>{item.icon}</span>
+              {t.cards.map((item, i) => (
+                <div
+                  key={item.title}
+                  className={`flex items-start gap-4 p-4 soft-card`}
+                >
+                  <span className={`w-10 h-10 rounded-2xl flex-shrink-0 flex items-center justify-center ${CARD_TINTS[i % CARD_TINTS.length]}`} aria-hidden>
+                    <span className="w-2.5 h-2.5 rounded-full bg-current" />
+                  </span>
                   <div>
-                    <p className="font-semibold text-sm text-gray-900 dark:text-white">{item.title}</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-500 mt-0.5">{item.desc}</p>
+                    <p className="font-display font-semibold text-base text-[rgb(var(--foreground))]">{item.title}</p>
+                    <p className="text-sm text-[rgb(var(--muted))] mt-0.5">{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -110,9 +121,7 @@ export default function Contact() {
 
             {/* Social links */}
             <div>
-              <p className="text-xs font-mono tracking-widest uppercase text-gray-400 dark:text-gray-600 mb-4">
-                Find me on
-              </p>
+              <p className="eyebrow mb-4">{t.findMe}</p>
               <div className="flex gap-3">
                 {SOCIAL_LINKS.map((link) => (
                   <a
@@ -120,7 +129,7 @@ export default function Contact() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:text-brand-500 hover:border-brand-500/30 transition-all text-sm font-medium"
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-full border border-[rgb(var(--border))] bg-[rgb(var(--card))] text-[rgb(var(--foreground))] hover:bg-brand-500 hover:text-white hover:border-brand-500 transition-all text-sm font-medium"
                     aria-label={link.label}
                   >
                     {link.icon}
@@ -142,29 +151,29 @@ export default function Contact() {
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="p-10 rounded-2xl bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 text-center"
+                className="p-10 soft-card text-center"
               >
-                <div className="text-5xl mb-4">✅</div>
-                <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2">Message sent!</h3>
-                <p className="text-gray-500 dark:text-gray-500 mb-6">Thanks for reaching out. I&apos;ll be in touch soon.</p>
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-emerald-500/15 flex items-center justify-center text-3xl text-emerald-600 dark:text-emerald-400">✓</div>
+                <h3 className="font-display font-semibold text-xl text-[rgb(var(--foreground))] mb-2">{t.successTitle}</h3>
+                <p className="text-[rgb(var(--muted))] mb-6">{t.successBody}</p>
                 <button
                   onClick={() => setStatus('idle')}
-                  className="text-sm text-brand-500 hover:text-brand-400 font-medium transition-colors"
+                  className="text-sm text-brand-500 hover:text-brand-600 font-medium transition-colors"
                 >
-                  Send another message
+                  {t.sendAnother}
                 </button>
               </motion.div>
             ) : (
               <form
                 onSubmit={handleSubmit}
                 noValidate
-                className="p-8 rounded-2xl bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 space-y-5"
+                className="p-8 soft-card space-y-5"
                 aria-label="Contact form"
               >
                 {/* Name */}
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                    Name
+                  <label htmlFor="name" className="block text-sm font-medium text-[rgb(var(--foreground))] mb-1.5">
+                    {t.name}
                   </label>
                   <input
                     id="name"
@@ -173,24 +182,20 @@ export default function Contact() {
                     autoComplete="name"
                     value={form.name}
                     onChange={handleChange}
-                    placeholder="Your name"
-                    className={`w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 text-sm outline-none transition-all focus:ring-2 focus:ring-brand-500/30 ${
-                      errors.name
-                        ? 'border-red-400/60 focus:border-red-400'
-                        : 'border-gray-200 dark:border-white/10 focus:border-brand-500/40'
-                    }`}
+                    placeholder={t.namePlaceholder}
+                    className={inputClass(errors.name)}
                     aria-describedby={errors.name ? 'name-error' : undefined}
                     aria-invalid={!!errors.name}
                   />
                   {errors.name && (
-                    <p id="name-error" className="mt-1.5 text-xs text-red-400" role="alert">{errors.name}</p>
+                    <p id="name-error" className="mt-1.5 text-xs font-medium text-accent-coral" role="alert">{errors.name}</p>
                   )}
                 </div>
 
                 {/* Email */}
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                    Email
+                  <label htmlFor="email" className="block text-sm font-medium text-[rgb(var(--foreground))] mb-1.5">
+                    {t.email}
                   </label>
                   <input
                     id="email"
@@ -199,24 +204,20 @@ export default function Contact() {
                     autoComplete="email"
                     value={form.email}
                     onChange={handleChange}
-                    placeholder="your@email.com"
-                    className={`w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 text-sm outline-none transition-all focus:ring-2 focus:ring-brand-500/30 ${
-                      errors.email
-                        ? 'border-red-400/60 focus:border-red-400'
-                        : 'border-gray-200 dark:border-white/10 focus:border-brand-500/40'
-                    }`}
+                    placeholder={t.emailPlaceholder}
+                    className={inputClass(errors.email)}
                     aria-describedby={errors.email ? 'email-error' : undefined}
                     aria-invalid={!!errors.email}
                   />
                   {errors.email && (
-                    <p id="email-error" className="mt-1.5 text-xs text-red-400" role="alert">{errors.email}</p>
+                    <p id="email-error" className="mt-1.5 text-xs font-medium text-accent-coral" role="alert">{errors.email}</p>
                   )}
                 </div>
 
                 {/* Message */}
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                    Message
+                  <label htmlFor="message" className="block text-sm font-medium text-[rgb(var(--foreground))] mb-1.5">
+                    {t.message}
                   </label>
                   <textarea
                     id="message"
@@ -224,24 +225,21 @@ export default function Contact() {
                     rows={5}
                     value={form.message}
                     onChange={handleChange}
-                    placeholder="Tell me about your project or opportunity…"
-                    className={`w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 text-sm outline-none transition-all focus:ring-2 focus:ring-brand-500/30 resize-none ${
-                      errors.message
-                        ? 'border-red-400/60 focus:border-red-400'
-                        : 'border-gray-200 dark:border-white/10 focus:border-brand-500/40'
-                    }`}
+                    placeholder={t.messagePlaceholder}
+                    className={`${inputClass(errors.message)} resize-none`}
                     aria-describedby={errors.message ? 'message-error' : undefined}
                     aria-invalid={!!errors.message}
                   />
                   {errors.message && (
-                    <p id="message-error" className="mt-1.5 text-xs text-red-400" role="alert">{errors.message}</p>
+                    <p id="message-error" className="mt-1.5 text-xs font-medium text-accent-coral" role="alert">{errors.message}</p>
                   )}
                 </div>
 
                 <motion.button
                   type="submit"
                   disabled={status === 'loading'}
-                  className="w-full py-3.5 px-6 rounded-xl bg-brand-600 hover:bg-brand-500 disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold text-sm transition-colors flex items-center justify-center gap-2"
+                  className="w-full py-3.5 px-6 rounded-full bg-brand-500 shadow-glow hover:bg-brand-600 disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all flex items-center justify-center gap-2"
+                  whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
                   {status === 'loading' ? (
@@ -250,11 +248,11 @@ export default function Contact() {
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                       </svg>
-                      Sending…
+                      {t.sending}
                     </>
                   ) : (
                     <>
-                      Send Message
+                      {t.send}
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                       </svg>
@@ -263,9 +261,9 @@ export default function Contact() {
                 </motion.button>
 
                 {status === 'error' && (
-                  <p className="text-sm text-red-400 text-center" role="alert">
-                    Something went wrong. Please try again or contact me directly at{' '}
-                    <a href="mailto:abderraouf_merazka@hotmail.com" className="underline hover:text-red-300">
+                  <p className="text-sm font-medium text-accent-coral text-center" role="alert">
+                    {t.errorBody}
+                    <a href="mailto:abderraouf_merazka@hotmail.com" className="underline">
                       abderraouf_merazka@hotmail.com
                     </a>
                   </p>

@@ -1,18 +1,23 @@
 'use client';
 
+import { useLanguage } from '@/lib/i18n';
+import { useDict } from '@/lib/dictionary';
+import WaveDivider from '@/components/WaveDivider';
+
 export default function Footer() {
   const year = new Date().getFullYear();
+  const { lang } = useLanguage();
+  const t = useDict(lang);
 
   return (
-    <footer className="relative bg-gray-100 dark:bg-[#08080c] border-t border-gray-200 dark:border-white/5 py-12 section-padding overflow-hidden">
-      {/* Subtle top gradient */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-px bg-gradient-to-r from-transparent via-brand-500/40 to-transparent" aria-hidden />
-
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-center">
-          {/* Copyright */}
-          <p className="text-sm text-gray-500 dark:text-gray-600 text-center">
-            © {year} – Abderraouf MERAZKA – Technical Lead Front-End
+    <footer className="relative">
+      {/* Wave transition from the last (light) section into the dark footer */}
+      <WaveDivider flip className="text-[rgb(var(--background))] bg-navy-900" />
+      <div className="bg-night section-padding pb-12 pt-4 text-white/80">
+        <div className="max-w-7xl mx-auto flex flex-col items-center gap-3">
+          <span className="font-display font-bold text-lg text-white">Abderraouf MERAZKA</span>
+          <p className="text-sm text-white/60 text-center">
+            © {year} — {t.footer.role}
           </p>
         </div>
       </div>

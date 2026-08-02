@@ -11,17 +11,17 @@ interface BadgeProps {
 export default function Badge({ children, variant = 'default', className }: BadgeProps) {
   const variants = {
     default:
-      'bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-white/10',
+      'bg-[rgb(var(--background))] text-[rgb(var(--muted))] border border-[rgb(var(--border))]',
     brand:
-      'bg-brand-500/10 text-brand-400 border border-brand-500/20',
+      'bg-brand-500/10 text-brand-600 dark:text-brand-300 border border-brand-500/20',
     outline:
-      'bg-transparent text-gray-500 dark:text-gray-400 border border-gray-300 dark:border-gray-700',
+      'bg-transparent text-[rgb(var(--muted))] border border-[rgb(var(--border))]',
   };
 
   return (
     <span
       className={cn(
-        'inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium font-mono',
+        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
         variants[variant],
         className
       )}
